@@ -113,7 +113,7 @@ def gen_img_from_vedio(reference_video, vedio_img_dir, train=True):
 
 
 ## generate vedio from the images which are swaped successfuly
-def gen_swap_vedio(extract_dir_swap, audio_file, gen_vedio, backup=False):
+def gen_swap_vedio(extract_dir_swap, audio_file, gen_vedio, backup=True):
     ## some vedio needs to change its PTS to make sure their audio and generated vedio match
     if backup == True:
         cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, '-c:v', 'libx264', '-vf', "fps=30,format=yuv420p,setpts=0.833333333*PTS", gen_vedio]

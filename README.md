@@ -48,6 +48,11 @@ The developers are also not responsible for any damage you might cause to your o
 
 ## Setting up for our project
 
+### install tensorflow-gpu
+```bash
+conda install -c anaconda tensorflow-gpu
+```
+
 ### Setup
 Enter the folder that faceswap has been downloaded to and run:
 ```bash
@@ -59,6 +64,37 @@ If setup fails for any reason you can still manually install the packages listed
    - CUDA: For acceleration. Requires a good nVidia Graphics Card (which supports CUDA inside)
    - Docker: Provide a ready-made image. Hide trivial details. Get you straight to the project.
    - nVidia-Docker: Access to the nVidia GPU on host machine from inside container.
+
+
+A successful setup log, without docker.
+```
+INFO    The tool provides tips for installation
+        and installs required python packages
+INFO    Setup in Linux 4.14.39-1-MANJARO
+INFO    Installed Python: 3.6.5 64bit
+INFO    Installed PIP: 10.0.1
+Enable  Docker? [Y/n] n
+INFO    Docker Disabled
+Enable  CUDA? [Y/n] 
+INFO    CUDA Enabled
+INFO    CUDA version: 9.1
+INFO    cuDNN version: 7
+WARNING Tensorflow has no official prebuild for CUDA 9.1 currently.
+        To continue, You have to build your own tensorflow-gpu.
+        Help: https://www.tensorflow.org/install/install_sources
+Are System Dependencies met? [y/N] y
+INFO    Installing Missing Python Packages...
+INFO    Installing tensorflow-gpu
+INFO    Installing pathlib==1.0.1
+......
+INFO    Installing tqdm
+INFO    Installing matplotlib
+INFO    All python3 dependencies are met.
+        You are good to go.
+```
+
+
+
 
 CUDA with Docker in 20 minutes.
 ```
@@ -111,32 +147,6 @@ INFO    1. Install Docker
         docker exec faceswap-gpu python /srv/tools.py gui
 ```
 
-A successful setup log, without docker.
-```
-INFO    The tool provides tips for installation
-        and installs required python packages
-INFO    Setup in Linux 4.14.39-1-MANJARO
-INFO    Installed Python: 3.6.5 64bit
-INFO    Installed PIP: 10.0.1
-Enable  Docker? [Y/n] n
-INFO    Docker Disabled
-Enable  CUDA? [Y/n] 
-INFO    CUDA Enabled
-INFO    CUDA version: 9.1
-INFO    cuDNN version: 7
-WARNING Tensorflow has no official prebuild for CUDA 9.1 currently.
-        To continue, You have to build your own tensorflow-gpu.
-        Help: https://www.tensorflow.org/install/install_sources
-Are System Dependencies met? [y/N] y
-INFO    Installing Missing Python Packages...
-INFO    Installing tensorflow-gpu
-INFO    Installing pathlib==1.0.1
-......
-INFO    Installing tqdm
-INFO    Installing matplotlib
-INFO    All python3 dependencies are met.
-        You are good to go.
-```
 
 ## Run the project
 import wraper.py as a model then follow the instruction of USAGE.md
