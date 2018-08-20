@@ -49,6 +49,7 @@ The developers are also not responsible for any damage you might cause to your o
 ## Setting up for our project
 
 ### install tensorflow-gpu
+install conda first then
 ```bash
 conda install -c anaconda tensorflow-gpu
 ```
