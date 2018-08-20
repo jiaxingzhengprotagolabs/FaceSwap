@@ -121,7 +121,7 @@ def gen_swap_vedio(extract_dir_swap, audio_file, gen_vedio, backup=True):
     else:
         cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, gen_vedio]
     
-    sstatus = call(cmd)
+    status = call(cmd)
     print(status)
 
 
