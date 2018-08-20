@@ -27,7 +27,7 @@ def delete_file(file_dir):
 
 
 
-def train(images_A_dir, images_B_dir,face_detect_dir,model_dir,epochs=100,extract=False):
+def train(images_A_dir, images_B_dir,face_detect_dir,model_dir,epochs=100,extract=True):
 
     # To convert image a:
     extract_dir_a = os.path.join(face_detect_dir, 'A')

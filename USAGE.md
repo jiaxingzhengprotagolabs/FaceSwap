@@ -17,7 +17,7 @@ train=True 当作为训练集的输入图片时，设为True, 表示每秒一帧
 ```
 2. 根据用户上传的文件，得到A， B图片组（数量可以不一致）训练模型
 ```
-调用函数train（imageA_dir, imageb_dir, face_detect_dir, model_dir, epochs = 10000, extract=False）
+调用函数train（imageA_dir, imageb_dir, face_detect_dir, model_dir, epochs = 10000, extract=True）
 其中， imageA_dir, imageB_dir分别代表用户上传的两组图片，face_detect_dir 是有图片生成的识别脸部的图片文件夹， 
 model_dir是存放训练好的参数, epochs是训练循环次数，默认情况下是10000，extract是一个判断是否需要重新生成新的模型
 
