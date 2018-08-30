@@ -79,47 +79,47 @@ def convert_img(images_dir, extract_img_dir, output_dir, model_dir):
 
         
 
-## extract only keypoint of the vedio from the original vedio
-## our program will only use the keypoint vedio for faceswap
+## extract only keypoint of the video from the original video
+## our program will only use the keypoint video for faceswap
 def extract_keypoint_frame(reference_video, keypoint_video):
     cmd = ['ffmpeg', '-i', reference_video, '-strict', '-2', '-qscale', '0', '-intra', keypoint_video]
     status = call(cmd)
     print(status)
     
-## ioslate the audio from the keypoint vedio
+## ioslate the audio from the keypoint video
 def ioslate_audio(keypoint_video, audio_file):
     cmd = ['ffmpeg', '-i', keypoint_video, '-f', 'mp3', audio_file]
     status = call(cmd)
     print(status)
 
 
-def process_vedio(reference_video,keypoint_video, audio_file):
+def process_video(reference_video,keypoint_video, audio_file):
     if reference_video:
         extract_keypoint_frame(reference_video, keypoint_video)
 
     if keypoint_video:
         ioslate_audio(keypoint_video, audio_file)
 
-## generate frame images from keypoint vedio
-def gen_img_from_vedio(reference_video, vedio_img_dir, train=True):
+## generate frame images from keypoint video
+def gen_img_from_video(reference_video, video_img_dir, train=True):
     fps = 1
     if train:
-        cmd = ['ffmpeg', '-i', reference_video, '-r', str(fps), './' + vedio_img_dir + '/frame%d.png'] 
+        cmd = ['ffmpeg', '-i', reference_video, '-r', str(fps), './' + video_img_dir + '/frame%d.png'] 
     else:
-        cmd = ['ffmpeg', '-i', reference_video, './' + vedio_img_dir + '/frame%d.png']
+        cmd = ['ffmpeg', '-i', reference_video, './' + video_img_dir + '/frame%d.png']
     status = call(cmd)
     print(status)
 
 
 
-## generate vedio from the images which are swaped successfuly
-def gen_swap_vedio(extract_dir_swap, audio_file, gen_vedio, backup=True):
-    ## some vedio needs to change its PTS to make sure their audio and generated vedio match
+## generate video from the images which are swaped successfuly
+def gen_swap_video(extract_dir_swap, audio_file, gen_video, backup=True):
+    ## some video needs to change its PTS to make sure their audio and generated video match
     if backup == True:
-        cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, '-c:v', 'libx264', '-vf', "fps=30,format=yuv420p,setpts=0.833333333*PTS", gen_vedio]
+        cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, '-c:v', 'libx264', '-vf', "fps=30,format=yuv420p,setpts=0.833333333*PTS", gen_video]
     
     else:
-        cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, gen_vedio]
+        cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, gen_video]
     
     status = call(cmd)
     print(status)
@@ -129,3 +129,7 @@ def gen_swap_vedio(extract_dir_swap, audio_file, gen_vedio, backup=True):
 #cmd =['python', 'tools.py', 'effmpeg', '-a','gen-vid', '-i', './data/test_images/video_out', '-r', './data/test_images/input_trump_short.mp4','-o', './data/test_images/out_trump_short.mp4', '-fps','-1','-m']
 #call(cmd)
 #%%
+
+
+
+

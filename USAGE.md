@@ -8,9 +8,9 @@ a. A 图片 + B 图片
 b. A 图片 + B 视频
 c. A 视频 + B 图片
 d. A视频 + B 视频
-上传的所有视频需要用函数 gen_img_from_vedio(reference_video, vedio_img_dir, train=True):生成图片
+上传的所有视频需要用函数 gen_img_from_video(reference_video, video_img_dir, train=True):生成图片
 reference_video 用户上传的视频
-vedio_img_dir 生成图片的目录
+video_img_dir 生成图片的目录
 train=True 当作为训练集的输入图片时，设为True, 表示每秒一帧，视频有多少妙就生成多少图片。默认是False，
 表示按照视频原有的的fps生成图片，用于对视频中的人换脸。
 
@@ -38,7 +38,7 @@ model_dir 是模型参数所在的文件夹
 
 ```
 b. 对于需要换视频的用户，需要先对上传的视频作预处理 
-调用函数  process_vedio(reference_video,keypoint_video, audio_file):
+调用函数  process_video(reference_video,keypoint_video, audio_file):
 reference_video 用户上传的视频
 keypoint_video 处理得到的仅带关键帧的视频
 audio_file 分离出来的视频中的音频
@@ -46,16 +46,16 @@ audio_file 分离出来的视频中的音频
 
 ```
 c. 将关键帧视频变成图片，每一帧一张， 然后将这些帧生成的图片换脸
-调用 gen_img_from_vedio 函数， train==False 得到由视频生成的图片
+调用 gen_img_from_video 函数， train==False 得到由视频生成的图片
 调用convert_img 生成换脸图片组
 ```
 
 ```
 d.最后将换脸后的图片还原成视频
-最后调用函数 gen_swap_vedio(extract_dir_swap, audio_file, gen_vedio, backup=True)
+最后调用函数 gen_swap_video(extract_dir_swap, audio_file, gen_video, backup=True)
 extract_dir_swap 是视频生成的图片换脸后的图片目录
 audio_file  是需要换脸视频的音频
-gen_vedio  最后生成的视频名字（可以任意取名字 如 out.mp4）
+gen_video  最后生成的视频名字（可以任意取名字 如 out.mp4）
 backup  当生成的视频和音频不同步的时候，将backup设为false，重新生成视频
 ```
 
