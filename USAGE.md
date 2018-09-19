@@ -37,10 +37,9 @@ model_dir 是模型参数所在的文件夹
 ```
 
 ```
-b. 对于需要换视频的用户，需要先对上传的视频作预处理 
-调用函数  process_video(reference_video,keypoint_video, audio_file):
-reference_video 用户上传的视频
-keypoint_video 处理得到的仅带关键帧的视频
+b. 对于需要换视频的用户，需要先将原视频音频分离出来 
+调用函数  ioslate_audio(video_file, audio_file):
+video_file 用户上传的视频
 audio_file 分离出来的视频中的音频
 ```
 
@@ -52,12 +51,15 @@ c. 将关键帧视频变成图片，每一帧一张， 然后将这些帧生成�
 
 ```
 d.最后将换脸后的图片还原成视频
-最后调用函数 gen_swap_video(extract_dir_swap, audio_file, gen_video, backup=True)
+最后调用函数 gen_swap_video(reference_video, extract_dir_swap, audio_file, gen_video)
+reference_video 用户上传的视频，为了得到其对应的fps
 extract_dir_swap 是视频生成的图片换脸后的图片目录
 audio_file  是需要换脸视频的音频
 gen_video  最后生成的视频名字（可以任意取名字 如 out.mp4）
-backup  当生成的视频和音频不同步的时候，将backup设为false，重新生成视频
 ```
 
+```
+f.将pretrain好的model直接用于tranfer training来生成用户想要的换脸后的视频
+test_user(images_A_dir, images_B_dir, face_detect_dir, reference_video, video_img_dir, model_dir, output_dir, epochs)
 
-
+```

@@ -78,13 +78,17 @@ def convert_img(images_dir, extract_img_dir, output_dir, model_dir):
     print(status)
 
         
+## get fps from the original video
+def get_video_fps(video_file):
+    video = cv2.VideoCapture(video_file)
+    
+    (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
+    if int(major_ver)  < 3:
+        fps = video.get(cv2.cv.CV_CAP_PROP_FPS)
+    else:
+        fps = video.get(cv2.CAP_PROP_FPS)
 
-## extract only keypoint of the video from the original video
-## our program will only use the keypoint video for faceswap
-def extract_keypoint_frame(reference_video, keypoint_video):
-    cmd = ['ffmpeg', '-i', reference_video, '-strict', '-2', '-qscale', '0', '-intra', keypoint_video]
-    status = call(cmd)
-    print(status)
+    return fps
     
 ## ioslate the audio from the keypoint video
 def ioslate_audio(keypoint_video, audio_file):
@@ -93,36 +97,29 @@ def ioslate_audio(keypoint_video, audio_file):
     print(status)
 
 
-def process_video(reference_video,keypoint_video, audio_file):
-    if reference_video:
-        extract_keypoint_frame(reference_video, keypoint_video)
 
-    if keypoint_video:
-        ioslate_audio(keypoint_video, audio_file)
+## generate vedio from the images which are swaped successfuly
+def gen_swap_vedio(reference_video, extract_dir_swap, audio_file, gen_vedio):
+    
+    fps = get_video_fps(reference_video)
 
-## generate frame images from keypoint video
-def gen_img_from_video(reference_video, video_img_dir, train=True):
-    fps = 1
-    if train:
-        cmd = ['ffmpeg', '-i', reference_video, '-r', str(fps), './' + video_img_dir + '/frame%d.png'] 
-    else:
-        cmd = ['ffmpeg', '-i', reference_video, './' + video_img_dir + '/frame%d.png']
+    cmd = ['ffmpeg', '-r', str(fps), '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, '-absf', 'aac_adtstoasc', gen_vedio]
     status = call(cmd)
     print(status)
 
 
 
 ## generate video from the images which are swaped successfuly
-def gen_swap_video(extract_dir_swap, audio_file, gen_video, backup=True):
-    ## some video needs to change its PTS to make sure their audio and generated video match
-    if backup == True:
-        cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, '-c:v', 'libx264', '-vf', "fps=30,format=yuv420p,setpts=0.833333333*PTS", gen_video]
+# def gen_swap_video(extract_dir_swap, audio_file, gen_video, backup=True):
+#     ## some video needs to change its PTS to make sure their audio and generated video match
+#     if backup == True:
+#         cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, '-c:v', 'libx264', '-vf', "fps=30,format=yuv420p,setpts=0.833333333*PTS", gen_video]
     
-    else:
-        cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, gen_video]
+#     else:
+#         cmd = ['ffmpeg', '-i', extract_dir_swap + '/frame%d.png', '-i', audio_file, gen_video]
     
-    status = call(cmd)
-    print(status)
+#     status = call(cmd)
+#     print(status)
 
 
 #%%
@@ -132,4 +129,29 @@ def gen_swap_video(extract_dir_swap, audio_file, gen_video, backup=True):
 
 
 
+def test_user(images_A_dir, images_B_dir, face_detect_dir, reference_video, video_img_dir, model_dir, output_dir, epochs):
+
+    print('start time')
+    start = time.time()
+    ## 
+    gen_img_from_vedio(reference_video, images_A_dir, train=True)
+    print("train image has been generated")
+
+    gen_img_from_vedio(reference_video, video_img_dir, train=False)
+    print("swap video image generated!")
+
+    ioslate_audio(reference_video, 'audio.mp3')
+    print("audio file has been seperated")
+
+    train(images_A_dir, images_B_dir, face_detect_dir, model_dir, epochs, True)
+    print("transfer training complete!")
+
+    convert_img(video_img_dir, 'extract', output_dir, model_dir)
+    print("convert image of swap face complete!")
+
+    gen_swap_vedio(reference_video, output_dir, 'audio.mp3', 'out.mp4')
+
+    end = time.time()
+    print(end - start)
+    print('complete!')
 
