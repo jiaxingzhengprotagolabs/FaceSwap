@@ -2,6 +2,13 @@
 # Workflow of faceswap: A(face) to B(face)
 
 ## 需要用到的函数封装在 wraper.ps里，可以直接引入该模块
+###需要使用到的函数
+train（）
+gen_img_from_vedio（）
+process_vedio（）
+convert_img（）
+gen_swap_vedio（）
+
 1. 用户需要首先上传文件, 可以是任意四种组合
 ```
 a. A 图片 + B 图片
