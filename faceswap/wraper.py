@@ -6,6 +6,8 @@ import arg as arg
 import os 
 import shutil
 from subprocess import call
+import time
+import cv2
 
 if sys.version_info[0] < 3:
     raise Exception("This program requires at least python3.2")
